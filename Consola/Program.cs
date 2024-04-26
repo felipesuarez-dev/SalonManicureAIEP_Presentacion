@@ -96,13 +96,13 @@ namespace Consola
         public void AgregarCita(Cita cita)
         {
             _citas.Add(cita);
-            Console.WriteLine($"Cita agendada para {cita.NombreCliente} el {cita.Fecha}");
+            Console.WriteLine($"\nCita agendada para {cita.NombreCliente} el {cita.Fecha}");
         }
 
         public void CancelarCita(Cita cita)
         {
             _citas.Remove(cita);
-            Console.WriteLine($"Cita cancelada para {cita.NombreCliente} el {cita.Fecha}");
+            Console.WriteLine($"\nCita cancelada para {cita.NombreCliente} el {cita.Fecha}");
         }
 
         public void ModificarCita(Cita citaAnterior, Cita citaNueva)
@@ -112,17 +112,17 @@ namespace Consola
             {
                 _citas.RemoveAt(index);
                 _citas.Insert(index, citaNueva);
-                Console.WriteLine($"Cita modificada de {citaAnterior.NombreCliente} el { citaAnterior.Fecha} a { citaNueva.NombreCliente} el { citaNueva.Fecha}");
+                Console.WriteLine($"\nCita modificada de {citaAnterior.NombreCliente} el { citaAnterior.Fecha} a { citaNueva.NombreCliente} el { citaNueva.Fecha}");
             }
             else
             {
-                Console.WriteLine("La cita a modificar no existe.");
+                Console.WriteLine("\nLa cita a modificar no existe.\n");
             }
         }
 
         public void MostrarCitas()
         {
-            Console.WriteLine("Citas agendadas:");
+            Console.WriteLine("\nCitas agendadas:\n");
             for (int i = 0; i < _citas.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. { _citas[i].NombreCliente} el {_citas[i].Fecha}");
@@ -144,25 +144,35 @@ namespace Consola
 
             while (true)
             {
-                Console.WriteLine("¿Qué acción desea realizar?");
+                Console.WriteLine("***********************************************************************************************************");
+                Console.WriteLine("   _____           _     __              __  __                   _                              ");
+                Console.WriteLine("  / ____|         | |   /_/             |  \\/  |                 (_)                             ");
+                Console.WriteLine(" | (___     __ _  | |   ___    _ __     | \\  / |   __ _   _ __    _    ___   _   _   _ __    ___ ");
+                Console.WriteLine("  \\___ \\   / _` | | |  / _ \\  | '_ \\    | |\\/| |  / _` | | '_ \\  | |  / __| | | | | | '__|  / _ \\");
+                Console.WriteLine("  ____) | | (_| | | | | (_) | | | | |   | |  | | | (_| | | | | | | | | (__  | |_| | | |    |  __/");
+                Console.WriteLine(" |_____/   \\__,_| |_|  \\___/  |_| |_|   |_|  |_|  \\__,_| |_| |_| |_|  \\___|  \\__,_| |_|     \\___|");
+                Console.WriteLine("                                                                                                 ");
+                Console.WriteLine("                                                                                                 ");
+                Console.WriteLine("**********************************************************************************************************");
+                Console.WriteLine("\nMENÚ\n");
                 Console.WriteLine("1. Agendar una cita");
                 Console.WriteLine("2. Modificar una cita");
                 Console.WriteLine("3. Cancelar una cita");
                 Console.WriteLine("4. Deshacer última acción");
-                Console.WriteLine("5. Salir");
+                Console.WriteLine("5. Salir\n");
 
                 string opcion = Console.ReadLine();
 
                 switch (opcion)
                 {
                     case "1":
-                        Console.WriteLine("Ingrese el nombre del cliente:");
+                        Console.WriteLine("\nIngrese el nombre del cliente:");
                         string nombreCliente = Console.ReadLine();
-                        Console.WriteLine("Ingrese la fecha de la cita (formato: dd/mm/aaaa):");
+                        Console.WriteLine("\nIngrese la fecha de la cita (formato: dd/mm/aaaa):");
                         DateTime fechaCita;
                         while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out fechaCita))
                         {
-                            Console.WriteLine("Formato de fecha inválido. Intente nuevamente (formato: dd/mm/aaaa):");
+                            Console.WriteLine("\nFormato de fecha inválido. Intente nuevamente (formato: dd/mm/aaaa):");
                         }
                         Cita cita = new Cita { Fecha = fechaCita, NombreCliente = nombreCliente };
                         IComando agendarComando = new AgendarCitaComando(cita, salon);
@@ -172,24 +182,24 @@ namespace Consola
                     case "2":
                         if (salon.Citas.Count == 0)
                         {
-                            Console.WriteLine("No hay citas agendadas para modificar.");
+                            Console.WriteLine("\nNo hay citas agendadas para modificar.");
                             break;
                         }
                         salon.MostrarCitas();
-                        Console.WriteLine("Seleccione el número de cita que desea modificar:");
+                        Console.WriteLine("\nSeleccione el número de cita que desea modificar:");
                         int indexModificar;
                         while (!int.TryParse(Console.ReadLine(), out indexModificar) || indexModificar < 1 || indexModificar > salon.Citas.Count)
                         {
-                            Console.WriteLine("Selección inválida. Intente nuevamente:");
+                            Console.WriteLine("\nSelección inválida. Intente nuevamente:");
                         }
                         Cita citaAnterior = salon.Citas[indexModificar - 1];
-                        Console.WriteLine("Ingrese el nuevo nombre del cliente:");
+                        Console.WriteLine("\nIngrese el nuevo nombre del cliente:");
                         string nuevoNombreCliente = Console.ReadLine();
-                        Console.WriteLine("Ingrese la nueva fecha de la cita (formato: dd/mm/aaaa):");
+                        Console.WriteLine("\nIngrese la nueva fecha de la cita (formato: dd/mm/aaaa):");
                         DateTime nuevaFechaCita;
                         while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out nuevaFechaCita))
                         {
-                            Console.WriteLine("Formato de fecha inválido. Intente nuevamente (formato: dd/mm/aaaa):");
+                            Console.WriteLine("\nFormato de fecha inválido. Intente nuevamente (formato: dd/mm/aaaa):");
                         }
                         Cita citaNueva = new Cita { Fecha = nuevaFechaCita, NombreCliente = nuevoNombreCliente };
                         IComando modificarComando = new ModificarCitaComando(citaAnterior, citaNueva, salon);
@@ -199,15 +209,15 @@ namespace Consola
                     case "3":
                         if (salon.Citas.Count == 0)
                         {
-                            Console.WriteLine("No hay citas agendadas para cancelar.");
+                            Console.WriteLine("\nNo hay citas agendadas para cancelar.");
                             break;
                         }
                         salon.MostrarCitas();
-                        Console.WriteLine("Seleccione el número de cita que desea cancelar:");
+                        Console.WriteLine("\nSeleccione el número de cita que desea cancelar:");
                         int index;
                         while (!int.TryParse(Console.ReadLine(), out index) || index < 1 || index > salon.Citas.Count)
                         {
-                            Console.WriteLine("Selección inválida. Intente nuevamente:");
+                            Console.WriteLine("\nSelección inválida. Intente nuevamente:");
                         }
                         IComando cancelarComando = new CancelarCitaComando(salon.Citas[index - 1], salon);
                         cancelarComando.Ejecutar();
@@ -216,14 +226,18 @@ namespace Consola
                     case "4":
                         if (historialComandos.Count == 0)
                         {
-                            Console.WriteLine("No hay acciones para deshacer.");
+                            Console.WriteLine("\nNo hay acciones para deshacer.");
                             break;
                         }
                         IComando ultimoComando = historialComandos.Pop();
                         ultimoComando.Deshacer();
                         break;
+                    case "5":
+                        Console.WriteLine("\nSaliendo del programa...");
+                        Environment.Exit(0);
+                        break;
                     default:
-                        Console.WriteLine("Opción inválida. Intente nuevamente.");
+                        Console.WriteLine("\nOpción inválida. Intente nuevamente.");
                         break;
                 }
             }
