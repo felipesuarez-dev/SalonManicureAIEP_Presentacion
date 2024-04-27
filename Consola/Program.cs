@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Consola
 {
@@ -96,13 +97,13 @@ namespace Consola
         public void AgregarCita(Cita cita)
         {
             _citas.Add(cita);
-            Console.WriteLine($"\nCita agendada para {cita.NombreCliente} el {cita.Fecha}");
+            Console.WriteLine($"\nCita agendada para {cita.NombreCliente} el {cita.Fecha}\n\n");
         }
 
         public void CancelarCita(Cita cita)
         {
             _citas.Remove(cita);
-            Console.WriteLine($"\nCita cancelada para {cita.NombreCliente} el {cita.Fecha}");
+            Console.WriteLine($"\nCita cancelada para {cita.NombreCliente} el {cita.Fecha}\n\n");
         }
 
         public void ModificarCita(Cita citaAnterior, Cita citaNueva)
@@ -112,11 +113,11 @@ namespace Consola
             {
                 _citas.RemoveAt(index);
                 _citas.Insert(index, citaNueva);
-                Console.WriteLine($"\nCita modificada de {citaAnterior.NombreCliente} el { citaAnterior.Fecha} a { citaNueva.NombreCliente} el { citaNueva.Fecha}");
+                Console.WriteLine($"\nCita modificada de {citaAnterior.NombreCliente} el { citaAnterior.Fecha} a { citaNueva.NombreCliente} el { citaNueva.Fecha}\n\n");
             }
             else
             {
-                Console.WriteLine("\nLa cita a modificar no existe.\n");
+                Console.WriteLine("\nLa cita a modificar no existe.\n\n");
             }
         }
 
@@ -125,7 +126,7 @@ namespace Consola
             Console.WriteLine("\nCitas agendadas:\n");
             for (int i = 0; i < _citas.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. { _citas[i].NombreCliente} el {_citas[i].Fecha}");
+                Console.WriteLine($"{i + 1}. { _citas[i].NombreCliente} el {_citas[i].Fecha}\n\n");
             }
         }
 
@@ -166,6 +167,7 @@ namespace Consola
                 switch (opcion)
                 {
                     case "1":
+                        Console.WriteLine("\nAGENDAR CITA\n");
                         Console.WriteLine("\nIngrese el nombre del cliente:");
                         string nombreCliente = Console.ReadLine();
                         Console.WriteLine("\nIngrese la fecha de la cita (formato: dd/mm/aaaa):");
@@ -180,6 +182,7 @@ namespace Consola
                         historialComandos.Push(agendarComando);
                         break;
                     case "2":
+                        Console.WriteLine("\nMODIFICAR CITA\n");
                         if (salon.Citas.Count == 0)
                         {
                             Console.WriteLine("\nNo hay citas agendadas para modificar.");
@@ -207,6 +210,7 @@ namespace Consola
                         historialComandos.Push(modificarComando);
                         break;
                     case "3":
+                        Console.WriteLine("\nCANCELAR CITA\n");
                         if (salon.Citas.Count == 0)
                         {
                             Console.WriteLine("\nNo hay citas agendadas para cancelar.");
@@ -233,14 +237,26 @@ namespace Consola
                         ultimoComando.Deshacer();
                         break;
                     case "5":
-                        Console.WriteLine("\nSaliendo del programa...");
-                        Environment.Exit(0);
+                        Console.WriteLine("\n¡Gracias por agendar con nosotros!");
+                        SalirPrograma(5);                        
                         break;
                     default:
-                        Console.WriteLine("\nOpción inválida. Intente nuevamente.");
+                        Console.WriteLine("\nOpción inválida. Intente nuevamente.\n\n\n");
                         break;
                 }
             }
+        }
+
+        static void SalirPrograma(int seconds)
+        {
+            Console.Write("Saliendo del programa");
+            for (int i = 0; i < seconds; i++)
+            {
+                Console.Write(".");
+                Thread.Sleep(1000); // Esperar 1 segundo
+            }
+            Console.WriteLine();
+            Environment.Exit(0);
         }
     }
 }
