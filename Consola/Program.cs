@@ -253,7 +253,7 @@ namespace Consola
             for (int i = 0; i < seconds; i++)
             {
                 Console.Write(".");
-                Thread.Sleep(1000); // Esperar 1 segundo
+                Thread.Sleep(1000);
             }
             Console.WriteLine();
             Environment.Exit(0);
